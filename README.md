@@ -1,4 +1,4 @@
-# 📘 README for Bank Statement Text Extraction Script
+# 📘 Bank Statement Text Extraction Script
 
 ## 🩾 Overview
 
