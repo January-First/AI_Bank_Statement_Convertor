@@ -39,7 +39,7 @@ The script uses a pre-trained 🤗 Hugging Face model: dbmdz/bert-large-cased-fi
 Save your 🏦 bank statement as statement.pdf in the script's 🗂 directory.
 2. Run the Script:
 🏃 Execute the script in a 🔰 Python environment (e.g., terminal or Jupyter Notebook).
-3, Review Output:
+3. Review Output:
 ✅ Check the console for debugging outputs:
 - "🩹 Cleaned Text": Displays a snippet of cleaned text.
 - "🤖 NER Entities": Shows the first 20 entities identified by the NER model.
