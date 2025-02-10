@@ -3,10 +3,8 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification, pipelin
 import re
 import pandas as pd
 
-# Path to the PDF file
-file_path = "./statement.pdf"
+file_path = "./statement1.pdf"
 
-# Extract text from PDF
 with pdfplumber.open(file_path) as pdf:
     text = ""
     for page in pdf.pages:
@@ -26,7 +24,7 @@ print(text[:500])
 
 tokenizer = AutoTokenizer.from_pretrained("dbmdz/bert-large-cased-finetuned-conll03-english")
 model = AutoModelForTokenClassification.from_pretrained("dbmdz/bert-large-cased-finetuned-conll03-english")
-ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, device=0)  # Use device 0 for GPU or -1 for CPU
+ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, device=0)  
 entities = ner_pipeline(text)
 
 
@@ -34,19 +32,23 @@ print("\nNER Entities:")
 for entity in entities[:20]: 
     print(entity)
 
-# Define regex pattern to match transactions
-# Updated regex pattern to match transactions
 transaction_pattern = re.compile(
-    r"(\d{1,2} \w{3})\s+(.+?)\s+([\d,]+\.\d{2})", re.MULTILINE
+    r"(\d{1,2} \w{3})\s+(.+?)\s+([\d,]+\.\d{2}|\(\d{1,3}(?:,\d{3})*\.\d{2}\))", re.MULTILINE
 )
 
 transactions = []
 for match in transaction_pattern.finditer(text):
     date, description, amount = match.groups()
+    
+    if "(" in amount and ")" in amount:
+        amount=-float(amount.replace("(","").replace(")","").replace(",",""))
+    else:
+        amount=float(amount.replace(",",""))
+        
     transactions.append({
         "Date": date.strip(),
         "Description": description.strip(),
-        "Amount (SGD)": float(amount.replace(",", ""))  
+        "Amount (SGD)": amount
     })
     
 
