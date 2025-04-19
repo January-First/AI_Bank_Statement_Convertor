@@ -2,7 +2,7 @@ Copyright (c) 2025 January First Private Limited
 
 All rights reserved.
 
-This software and associated documentation files (the "Software") are the proprietary property of [Your Name or Company].
+This software and associated documentation files (the "Software") are the proprietary property of January First Private Limited.
 
 Permission is hereby granted to any person obtaining a copy of this Software, to use the Software **for personal or internal business use only**, subject to the following conditions:
 
