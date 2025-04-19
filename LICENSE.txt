@@ -1,0 +1,16 @@
+Copyright (c) 2025 January First Private Limited
+
+All rights reserved.
+
+This software and associated documentation files (the "Software") are the proprietary property of [Your Name or Company].
+
+Permission is hereby granted to any person obtaining a copy of this Software, to use the Software **for personal or internal business use only**, subject to the following conditions:
+
+- The Software may not be copied, modified, distributed, sublicensed, sold, or used for commercial purposes without the express written permission of the copyright holder.
+- Reverse engineering, decompiling, or disassembling the Software is strictly prohibited.
+- The Software is provided "as is", without warranty of any kind, express or implied.
+
+By using the Software, you agree to these terms.
+
+For commercial licensing or extended usage rights, please contact: [your email or website].
+

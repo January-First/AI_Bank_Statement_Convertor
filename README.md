@@ -50,3 +50,7 @@ Save your 🏦 bank statement as statement.pdf in the script's 🗂 directory.
 ## 🖍️ Notes
 This script is designed for structured 🏦 bank statements with consistent formatting.
 For highly unstructured PDFs, additional 🛠️ preprocessing may be required.
+
+## 🔒 License
+
+This project is licensed under a proprietary license. See the [LICENSE.txt](./LICENSE.txt) file for details.

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Bank Statement Converter</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0eafc 100%);
+            min-height: 100vh;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-12 text-center">
+                    <h1 class="text-3xl font-bold text-white mb-2">Bank Statement Converter</h1>
+                    <p class="text-blue-100 text-lg">Simplify your financial data management</p>
+                </div>
+
+                <!-- Main Content -->
+                <div class="p-8">
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">About This Tool</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            The Bank Statement Converter is a powerful yet simple tool designed to help you extract and standardize transaction data from various bank statement formats. Whether you have PDF statements, Excel spreadsheets, CSV files, or plain text, our tool can process them and give you a clean, consistent output.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            This tool was created to simplify financial data management for individuals and businesses alike. No more manual data entry or complex reconciliation processes - just upload your statements and get structured, analyzable data in seconds.
+                        </p>
+                    </div>
+                    
+                    <!-- Features Section -->
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Key Features</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Feature 1 -->
+                            <div class="feature-card bg-blue-50 rounded-lg p-6 shadow-sm">
+                                <div class="text-blue-500 mb-4">
+                                    <i class="fa-solid fa-file-import text-3xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Multi-Format Support</h3>
+                                <p class="text-gray-600">
+                                    Process PDF, CSV, Excel, and text files from virtually any bank or financial institution.
+                                </p>
+                            </div>
+                            
+                            <!-- Feature 2 -->
+                            <div class="feature-card bg-green-50 rounded-lg p-6 shadow-sm">
+                                <div class="text-green-500 mb-4">
+                                    <i class="fa-solid fa-shield-halved text-3xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Privacy Focused</h3>
+                                <p class="text-gray-600">
+                                    All processing happens on our secure servers. Your data is automatically deleted after 1 hour.
+                                </p>
+                            </div>
+                            
+                            <!-- Feature 3 -->
+                            <div class="feature-card bg-indigo-50 rounded-lg p-6 shadow-sm">
+                                <div class="text-indigo-500 mb-4">
+                                    <i class="fa-solid fa-chart-simple text-3xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Advanced Analytics</h3>
+                                <p class="text-gray-600">
+                                    Get instant summaries and visualizations of your financial data with comprehensive reports.
+                                </p>
+                            </div>
+                            
+                            <!-- Feature 4 -->
+                            <div class="feature-card bg-purple-50 rounded-lg p-6 shadow-sm">
+                                <div class="text-purple-500 mb-4">
+                                    <i class="fa-solid fa-download text-3xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Flexible Exports</h3>
+                                <p class="text-gray-600">
+                                    Download your processed data in multiple formats including Excel, CSV, and text files.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- How It Works Section -->
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">How It Works</h2>
+                        
+                        <div class="space-y-8">
+                            <!-- Step 1 -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center text-indigo-600 font-bold mr-4">
+                                    1
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload Your Statement</h3>
+                                    <p class="text-gray-600">
+                                        Simply drag and drop your bank statement file, or click to browse and select it. We support PDF, CSV, Excel, and text files.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center text-indigo-600 font-bold mr-4">
+                                    2
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Automatic Processing</h3>
+                                    <p class="text-gray-600">
+                                        Our intelligent system automatically extracts transaction data, including dates, descriptions, and amounts from your statement.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center text-indigo-600 font-bold mr-4">
+                                    3
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Review and Export</h3>
+                                    <p class="text-gray-600">
+                                        View the extracted transactions in a clean, organized format. Download the data in your preferred format for further analysis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="px-8 py-6 bg-gray-50 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <a href="{{ url_for('index') }}" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Back to Converter
+                        </a>
+                        <p class="text-sm text-gray-500">
+                            Version 1.0.0 &copy; 2025 Bank Statement Converter
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

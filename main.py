@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification, pipelin
 import re
 import pandas as pd
 
-file_path = "./statement1.pdf"
+file_path = "./statement2.pdf"
 
 with pdfplumber.open(file_path) as pdf:
     text = ""

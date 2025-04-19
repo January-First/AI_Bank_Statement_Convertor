@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Statement Converter</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .upload-box {
+            border: 2px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .upload-box:hover {
+            border-color: #6366f1;
+            background-color: #f9fafb;
+        }
+        .upload-progress {
+            transition: width 0.3s ease-in-out;
+        }
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0eafc 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+                    <h1 class="text-2xl font-bold text-white">Bank Statement Converter</h1>
+                    <p class="text-blue-100 mt-1">Extract and standardize your financial data</p>
+                </div>
+
+                <!-- Main Content -->
+                <div class="p-6">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="{% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-blue-100 text-blue-700{% endif %} p-4 rounded-lg mb-6">
+                                    <div class="flex items-center">
+                                        <i class="{% if category == 'error' %}fa-solid fa-circle-exclamation{% else %}fa-solid fa-circle-info{% endif %} mr-3"></i>
+                                        <span>{{ message }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" id="upload-form">
+                        <div id="drop-area" class="upload-box p-8 rounded-lg text-center cursor-pointer mb-6">
+                            <div class="upload-icon mb-4">
+                                <i class="fa-solid fa-file-arrow-up text-5xl text-indigo-500"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop Your File Here</h3>
+                            <p class="text-gray-500 mb-3">or click to browse files</p>
+                            <p class="text-xs text-gray-400">Supported formats: CSV, Excel, PDF, TXT</p>
+                            
+                            <input type="file" name="file" id="file-input" class="hidden" accept=".csv,.xlsx,.xls,.pdf,.txt">
+                        </div>
+                        
+                        <!-- File Info (Hidden initially) -->
+                        <div id="file-info" class="hidden mb-6">
+                            <div class="bg-indigo-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="text-indigo-500 mr-3">
+                                            <i class="fa-solid fa-file-lines text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p id="selected-filename" class="font-medium text-gray-700">No file selected</p>
+                                            <p class="text-sm text-gray-500" id="file-size"></p>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="remove-file" class="text-red-500 hover:text-red-700">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Progress bar (Hidden initially) -->
+                                <div id="progress-container" class="hidden mt-3">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div id="progress-bar" class="upload-progress bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500" id="progress-status">Uploading...</span>
+                                        <span class="text-xs text-gray-500" id="progress-percentage">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Status Messages (Hidden initially) -->
+                        <div id="upload-success" class="hidden bg-green-100 text-green-700 p-4 rounded-lg mb-6">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-circle-check mr-3"></i>
+                                <span>File uploaded successfully!</span>
+                            </div>
+                        </div>
+                        
+                        <div id="upload-error" class="hidden bg-red-100 text-red-700 p-4 rounded-lg mb-6">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-circle-xmark mr-3"></i>
+                                <span>Upload failed! Please try again.</span>
+                            </div>
+                            <button type="button" id="try-again" class="mt-2 text-indigo-600 hover:text-indigo-800">
+                                <i class="fa-solid fa-arrow-rotate-right mr-1"></i> Try Again
+                            </button>
+                        </div>
+                        
+                        <button type="submit" id="convert-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fa-solid fa-bolt mr-2"></i>Convert Statement
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <p class="text-sm text-gray-500">
+                            <i class="fa-solid fa-shield-halved mr-2"></i>Your files are processed securely and deleted after 1 hour
+                        </p>
+                        <a href="{{ url_for('about') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                            About this tool <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('file-input');
+            const fileInfo = document.getElementById('file-info');
+            const selectedFilename = document.getElementById('selected-filename');
+            const fileSize = document.getElementById('file-size');
+            const removeFileBtn = document.getElementById('remove-file');
+            const convertBtn = document.getElementById('convert-btn');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = document.getElementById('progress-percentage');
+            const progressStatus = document.getElementById('progress-status');
+            const uploadSuccess = document.getElementById('upload-success');
+            const uploadError = document.getElementById('upload-error');
+            const tryAgainBtn = document.getElementById('try-again');
+            
+            // Handle click on drop area
+            dropArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Handle drag and drop events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+            }
+            
+            // Handle file drop
+            dropArea.addEventListener('drop', function(e) {
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect();
+                }
+            });
+            
+            // Handle file input change
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            function handleFileSelect() {
+                if (fileInput.files.length) {
+                    const file = fileInput.files[0];
+                    
+                    // Check if file type is allowed
+                    const allowedTypes = ['.csv', '.xlsx', '.xls', '.pdf', '.txt'];
+                    const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+                    
+                    if (!allowedTypes.includes(fileExt)) {
+                        alert('File type not supported. Please use CSV, Excel, PDF, or TXT files.');
+                        resetFileInput();
+                        return;
+                    }
+                    
+                    // Reset any previous statuses
+                    uploadSuccess.classList.add('hidden');
+                    uploadError.classList.add('hidden');
+                    
+                    // Display file info
+                    selectedFilename.textContent = file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    fileInfo.classList.remove('hidden');
+                    convertBtn.disabled = false;
+                    
+                    // Simulate file upload progress (for demonstration)
+                    simulateUploadProgress();
+                }
+            }
+            
+            // Handle remove file button
+            removeFileBtn.addEventListener('click', function() {
+                resetFileInput();
+            });
+            
+            // Handle try again button
+            tryAgainBtn.addEventListener('click', function() {
+                uploadError.classList.add('hidden');
+                fileInput.click();
+            });
+            
+            function resetFileInput() {
+                fileInput.value = '';
+                fileInfo.classList.add('hidden');
+                progressContainer.classList.add('hidden');
+                uploadSuccess.classList.add('hidden');
+                uploadError.classList.add('hidden');
+                convertBtn.disabled = true;
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            function simulateUploadProgress() {
+                // This is just for UI demonstration
+                // In real use, you would track actual upload progress
+                
+                progressContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                progressPercentage.textContent = '0%';
+                progressStatus.textContent = 'Preparing...';
+                
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress > 100) progress = 100;
+                    
+                    progressBar.style.width = progress + '%';
+                    progressPercentage.textContent = Math.round(progress) + '%';
+                    
+                    if (progress < 30) {
+                        progressStatus.textContent = 'Analyzing file...';
+                    } else if (progress < 60) {
+                        progressStatus.textContent = 'Processing data...';
+                    } else if (progress < 90) {
+                        progressStatus.textContent = 'Extracting information...';
+                    } else {
+                        progressStatus.textContent = 'Almost done...';
+                    }
+                    
+                    if (progress === 100) {
+                        clearInterval(interval);
+                        // For demo purposes, show success after 100%
+                        // In real app, you would show this only after actual successful upload
+                        setTimeout(() => {
+                            progressStatus.textContent = 'Ready!';
+                            // Uncomment one of these to test different states:
+                            uploadSuccess.classList.remove('hidden');
+                            // uploadError.classList.remove('hidden');
+                        }, 500);
+                    }
+                }, 200);
+            }
+        });
+    </script>
+</body>
+</html>
